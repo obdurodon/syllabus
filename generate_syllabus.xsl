@@ -49,7 +49,30 @@
                         <xsl:text>Thanksgiving recess; no class</xsl:text>
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:text>Assignment goes here</xsl:text>
+                        <ul>
+                            <xsl:if
+                                test="$date gt $start-date + xs:dayTimeDuration('P7D') and $date lt $end-date - xs:dayTimeDuration('P7D')">
+                                <!-- no blog or discussion board first or last week -->
+                                <xsl:if test="djb:day-of-week($date) eq 'Fri'">
+                                    <li>
+                                        <xsl:text>Blog response due </xsl:text>
+                                        <xsl:value-of
+                                            select="if ($date + xs:dayTimeDuration('P3D') eq $fall-break) then 'Tuesday' else 'Monday'"
+                                        />
+                                    </li>
+                                    <li>
+                                        <xsl:text>Discussion-board contribution due </xsl:text>
+                                        <xsl:value-of
+                                            select="if ($date + xs:dayTimeDuration('P3D') eq $fall-break) then 'Tuesday' else 'Monday'"
+                                        />
+                                    </li>
+                                </xsl:if>
+                                <xsl:if test="djb:day-of-week($date) eq 'Wed'">
+                                    <li>Blog posting due Friday</li>
+                                </xsl:if>
+                            </xsl:if>
+                            <li>Assignments go here</li>
+                        </ul>
                     </xsl:otherwise>
                 </xsl:choose>
             </td>
